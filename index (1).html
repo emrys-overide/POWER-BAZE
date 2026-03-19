@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Power Baze — The Ultimate Fuel Station</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<style>
+/* ===== RESET & VARIABLES ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --orange:#D4511A;
+  --orange-light:#FF6B2B;
+  --orange-dark:#A83D10;
+  --yellow:#FFD700;
+  --red:#CC0000;
+  --black:#0F0D0A;
+  --black2:#181410;
+  --black3:#221E18;
+  --black4:#2E2820;
+  --cream:#F5EFE0;
+  --muted:#8A7A60;
+  --font-head:'Bebas Neue',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--black);
+  color:var(--cream);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+section{padding:5rem 1.25rem}
+
+/* ===== NOISE TEXTURE OVERLAY ===== */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;opacity:0.35;
+}
+
+/* ===== STICKY NAV ===== */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(15,13,10,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(212,81,26,0.25);
+  padding:0 1.25rem;
+  display:flex;align-items:center;justify-content:space-between;
+  height:58px;
+}
+.nav-logo{
+  font-family:var(--font-head);
+  font-size:22px;
+  letter-spacing:2px;
+  color:var(--orange);
+}
+.nav-logo span{color:var(--cream);font-size:12px;display:block;letter-spacing:3px;font-family:var(--font-body);font-weight:300;line-height:1;margin-top:-2px}
+.nav-links{display:flex;gap:1.5rem;align-items:center}
+.nav-links a{
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--orange)}
+.nav-order{
+  background:var(--orange);
+  color:#fff;
+  font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;
+  padding:8px 16px;border-radius:3px;
+  transition:background 0.2s;
+}
+.nav-order:hover{background:var(--orange-light)}
+@media(max-width:600px){.nav-links .hide-mobile{display:none}}
+
+/* ===== HERO ===== */
+#hero{
+  min-height:100svh;
+  padding-top:58px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(212,81,26,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 80% at 80% 80%, rgba(204,0,0,0.10) 0%, transparent 60%),
+    var(--black);
+}
+.hero-grid-lines{
+  position:absolute;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(212,81,26,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,81,26,0.06) 1px, transparent 1px);
+  background-size:40px 40px;
+}
+.hero-content{position:relative;z-index:1;max-width:700px;padding:2rem 0}
+.hero-badge{
+  display:inline-block;
+  background:var(--red);
+  color:#fff;font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:500;
+  padding:5px 14px;border-radius:2px;margin-bottom:1.5rem;
+  animation:fadeDown 0.6s ease both;
+}
+.hero-title{
+  font-family:var(--font-head);
+  font-size:clamp(3.5rem,14vw,8rem);
+  line-height:0.9;
+  letter-spacing:2px;
+  color:#fff;
+  animation:fadeDown 0.7s 0.1s ease both;
+}
+.hero-title .fire{color:var(--orange)}
+.hero-title .sub-name{
+  display:block;font-size:clamp(1rem,4vw,2rem);
+  color:var(--muted);letter-spacing:6px;
+  font-family:var(--font-body);font-weight:300;
+  margin-top:0.5rem;
+}
+.hero-tagline{
+  font-size:clamp(1rem,3vw,1.25rem);
+  color:var(--cream);opacity:0.75;
+  margin:1.5rem auto;max-width:480px;
+  animation:fadeDown 0.7s 0.2s ease both;
+}
+.hero-signals{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
+  margin-bottom:2rem;
+  animation:fadeDown 0.7s 0.3s ease both;
+}
+.signal{
+  background:rgba(212,81,26,0.15);
+  border:1px solid rgba(212,81,26,0.3);
+  padding:6px 14px;border-radius:20px;
+  font-size:12px;letter-spacing:1px;color:var(--orange-light);
+}
+.hero-ctas{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:12px;
+  animation:fadeDown 0.7s 0.4s ease both;
+}
+.btn-primary{
+  background:var(--orange);color:#fff;
+  font-family:var(--font-head);font-size:20px;letter-spacing:2px;
+  padding:14px 36px;border-radius:4px;border:none;cursor:pointer;
+  animation:pulse-glow 2s infinite;
+  transition:background 0.2s,transform 0.15s;
+}
+.btn-primary:hover{background:var(--orange-light);transform:scale(1.03)}
+.btn-secondary{
+  background:transparent;color:var(--cream);
+  font-size:13px;letter-spacing:2px;text-transform:uppercase;
+  padding:14px 28px;border-radius:4px;border:1px solid rgba(245,239,224,0.25);
+  cursor:pointer;transition:border-color 0.2s,color 0.2s;
+}
+.btn-secondary:hover{border-color:var(--orange);color:var(--orange)}
+.hero-scroll{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  animation:bounce 2s infinite;
+}
+.hero-scroll::after{content:'';width:1px;height:30px;background:var(--muted)}
+
+/* ===== PROOF STRIP ===== */
+#proof-strip{
+  padding:1.5rem 1.25rem;
+  background:var(--orange);
+  overflow:hidden;
+}
+.ticker-wrap{display:flex;gap:0}
+.ticker{
+  display:flex;gap:3rem;
+  white-space:nowrap;
+  animation:ticker 20s linear infinite;
+  font-family:var(--font-head);font-size:18px;letter-spacing:2px;color:#fff;
+}
+.ticker-item{display:flex;align-items:center;gap:10px}
+.ticker-dot{width:6px;height:6px;background:rgba(255,255,255,0.5);border-radius:50%}
+
+/* ===== SECTION LABELS ===== */
+.section-label{
+  display:inline-block;
+  font-size:10px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--orange);border:1px solid rgba(212,81,26,0.4);
+  padding:4px 14px;border-radius:2px;margin-bottom:1rem;
+}
+.section-title{
+  font-family:var(--font-head);
+  font-size:clamp(2.5rem,8vw,4.5rem);
+  letter-spacing:2px;line-height:0.95;
+  color:#fff;margin-bottom:0.5rem;
+}
+.section-sub{
+  color:var(--muted);font-size:15px;max-width:480px;
+}
+
+/* ===== MENU ===== */
+#menu{background:var(--black2)}
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1.25rem;margin-top:2.5rem;
+}
+.menu-card{
+  background:var(--black3);
+  border:1px solid rgba(212,81,26,0.15);
+  border-radius:8px;overflow:hidden;
+  transition:transform 0.25s,border-color 0.25s,box-shadow 0.25s;
+  position:relative;
+}
+.menu-card:hover{
+  transform:translateY(-6px);
+  border-color:var(--orange);
+  box-shadow:0 16px 40px rgba(212,81,26,0.2);
+}
+.menu-card-img{
+  height:180px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:5rem;
+  background:linear-gradient(135deg,var(--black4),var(--black3));
+  position:relative;overflow:hidden;
+}
+.menu-card-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 50%,var(--black3));
+}
+.menu-badge{
+  position:absolute;top:12px;left:12px;z-index:1;
+  background:var(--red);color:#fff;
+  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;
+  padding:3px 10px;border-radius:2px;
+}
+.menu-card-body{padding:1.25rem}
+.menu-card-name{
+  font-family:var(--font-head);font-size:24px;letter-spacing:1px;
+  color:#fff;margin-bottom:4px;
+}
+.menu-card-desc{font-size:13px;color:var(--muted);margin-bottom:1rem;line-height:1.5}
+.menu-card-footer{
+  display:flex;align-items:center;justify-content:space-between;
+}
+.menu-price{
+  font-family:var(--font-head);font-size:26px;color:var(--orange);letter-spacing:1px;
+}
+.menu-tags{display:flex;gap:6px;flex-wrap:wrap}
+.menu-tag{
+  font-size:10px;letter-spacing:1px;text-transform:uppercase;
+  padding:3px 8px;border-radius:2px;
+  background:rgba(212,81,26,0.15);color:var(--orange-light);
+}
+.menu-cta-row{
+  margin-top:2rem;text-align:center;
+}
+
+/* ===== WHY US ===== */
+#why{background:var(--black)}
+.why-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1.25rem;margin-top:2.5rem;
+}
+.why-card{
+  background:var(--black3);
+  border:1px solid rgba(212,81,26,0.12);
+  border-radius:8px;padding:1.5rem;
+  position:relative;overflow:hidden;
+  transition:border-color 0.2s;
+}
+.why-card:hover{border-color:rgba(212,81,26,0.4)}
+.why-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--orange),var(--red));
+}
+.why-icon{font-size:2rem;margin-bottom:1rem}
+.why-title{font-family:var(--font-head);font-size:22px;letter-spacing:1px;color:#fff;margin-bottom:6px}
+.why-desc{font-size:13px;color:var(--muted);line-height:1.6}
+.stats-row{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1rem;margin-top:3rem;
+  border-top:1px solid rgba(212,81,26,0.15);
+  padding-top:2rem;text-align:center;
+}
+.stat-num{font-family:var(--font-head);font-size:3rem;color:var(--orange);line-height:1}
+.stat-label{font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+
+/* ===== HOW TO ORDER ===== */
+#order{background:var(--black2)}
+.order-steps{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1.5rem;margin-top:2.5rem;position:relative;
+}
+.order-step{text-align:center;padding:1.5rem}
+.step-num{
+  width:56px;height:56px;border-radius:50%;
+  background:var(--orange);color:#fff;
+  font-family:var(--font-head);font-size:28px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1rem;
+}
+.step-title{font-family:var(--font-head);font-size:22px;letter-spacing:1px;color:#fff;margin-bottom:6px}
+.step-desc{font-size:13px;color:var(--muted)}
+.whatsapp-cta{
+  margin-top:3rem;
+  background:linear-gradient(135deg,#1a3a1a,#0d200d);
+  border:1px solid rgba(37,211,102,0.3);
+  border-radius:12px;padding:2.5rem;text-align:center;
+}
+.whatsapp-cta h3{font-family:var(--font-head);font-size:2rem;color:#fff;margin-bottom:0.5rem;letter-spacing:1px}
+.whatsapp-cta p{color:#6db85a;font-size:14px;margin-bottom:1.5rem}
+.btn-whatsapp{
+  display:inline-flex;align-items:center;gap:10px;
+  background:#25D366;color:#fff;
+  font-family:var(--font-head);font-size:22px;letter-spacing:2px;
+  padding:14px 36px;border-radius:6px;
+  animation:pulse-green 2s infinite;
+  transition:transform 0.15s,background 0.2s;
+}
+.btn-whatsapp:hover{background:#1ebe5a;transform:scale(1.03)}
+.wa-icon{font-size:24px}
+
+/* ===== TESTIMONIALS ===== */
+#testimonials{background:var(--black)}
+.testi-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1.25rem;margin-top:2.5rem;
+}
+.testi-card{
+  background:var(--black3);
+  border:1px solid rgba(212,81,26,0.12);
+  border-radius:8px;padding:1.5rem;
+  position:relative;
+}
+.testi-stars{color:var(--yellow);font-size:18px;margin-bottom:0.75rem;letter-spacing:3px}
+.testi-quote{
+  font-size:14px;line-height:1.7;color:var(--cream);opacity:0.85;
+  font-style:italic;margin-bottom:1.25rem;
+}
+.testi-quote::before{
+  content:'"';font-family:var(--font-head);font-size:3rem;color:var(--orange);
+  line-height:0;vertical-align:-1rem;margin-right:4px;
+}
+.testi-author{display:flex;align-items:center;gap:10px}
+.testi-avatar{
+  width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(135deg,var(--orange-dark),var(--red));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-head);font-size:18px;color:#fff;flex-shrink:0;
+}
+.testi-name{font-weight:500;font-size:14px;color:#fff}
+.testi-role{font-size:12px;color:var(--muted)}
+
+/* ===== LOYALTY ===== */
+#loyalty{
+  background:var(--black2);
+  position:relative;overflow:hidden;
+}
+.loyalty-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 70% at 80% 50%,rgba(212,81,26,0.12),transparent);
+  pointer-events:none;
+}
+.loyalty-inner{
+  max-width:560px;position:relative;z-index:1;
+}
+.loyalty-perks{
+  display:flex;flex-direction:column;gap:10px;margin:1.5rem 0 2rem;
+}
+.perk{
+  display:flex;align-items:center;gap:12px;
+  background:var(--black4);border:1px solid rgba(212,81,26,0.15);
+  border-radius:6px;padding:12px 16px;
+}
+.perk-icon{font-size:1.25rem;flex-shrink:0}
+.perk-text{font-size:14px;color:var(--cream);opacity:0.85}
+.email-form{display:flex;gap:10px;flex-wrap:wrap}
+.email-input{
+  flex:1;min-width:200px;
+  background:var(--black3);
+  border:1px solid rgba(212,81,26,0.3);
+  border-radius:4px;padding:12px 16px;
+  color:var(--cream);font-family:var(--font-body);font-size:14px;
+  outline:none;transition:border-color 0.2s;
+}
+.email-input:focus{border-color:var(--orange)}
+.email-input::placeholder{color:var(--muted)}
+.btn-subscribe{
+  background:var(--orange);color:#fff;
+  font-family:var(--font-head);font-size:18px;letter-spacing:1.5px;
+  padding:12px 28px;border-radius:4px;border:none;cursor:pointer;
+  transition:background 0.2s,transform 0.15s;white-space:nowrap;
+}
+.btn-subscribe:hover{background:var(--orange-light);transform:scale(1.02)}
+
+/* ===== LOCATION & FAQ ===== */
+#info{background:var(--black)}
+.info-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:2rem;margin-top:2.5rem;
+}
+@media(max-width:640px){.info-grid{grid-template-columns:1fr}}
+.hours-card,.faq-card{
+  background:var(--black3);border:1px solid rgba(212,81,26,0.15);
+  border-radius:8px;padding:1.5rem;
+}
+.card-title{
+  font-family:var(--font-head);font-size:1.5rem;letter-spacing:1px;
+  color:var(--orange);margin-bottom:1rem;
+}
+.hour-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);
+  font-size:14px;
+}
+.hour-row:last-child{border-bottom:none}
+.day{color:var(--muted)}
+.time{color:var(--cream);font-weight:500}
+.closed{color:var(--red)}
+.location-block{
+  margin-top:1.5rem;background:var(--black4);
+  border-radius:6px;padding:1.25rem;
+  border-left:3px solid var(--orange);
+}
+.location-block p{font-size:14px;color:var(--cream);line-height:1.7}
+.location-block strong{color:var(--orange)}
+.delivery-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.3);
+  color:#6db85a;font-size:12px;letter-spacing:1px;text-transform:uppercase;
+  padding:4px 12px;border-radius:20px;margin-top:0.75rem;
+}
+.faq-item{
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:1rem 0;cursor:pointer;
+}
+.faq-item:last-child{border-bottom:none}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:14px;font-weight:500;color:var(--cream);gap:8px;
+}
+.faq-icon{
+  color:var(--orange);font-size:20px;line-height:1;
+  transition:transform 0.2s;flex-shrink:0;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-a{
+  display:none;font-size:13px;color:var(--muted);
+  padding-top:8px;line-height:1.6;
+}
+.faq-item.open .faq-a{display:block}
+
+/* ===== FINAL CTA ===== */
+#final-cta{
+  background:var(--orange);
+  text-align:center;padding:5rem 1.25rem;
+  position:relative;overflow:hidden;
+}
+.final-cta-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--orange-dark),var(--orange),var(--orange-light));
+}
+.final-cta-content{position:relative;z-index:1}
+.final-cta-title{
+  font-family:var(--font-head);
+  font-size:clamp(3rem,10vw,6rem);
+  letter-spacing:2px;color:#fff;line-height:0.95;
+  margin-bottom:1rem;
+}
+.final-cta-sub{color:rgba(255,255,255,0.8);font-size:16px;margin-bottom:2rem}
+.final-cta-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.btn-white{
+  background:#fff;color:var(--orange);
+  font-family:var(--font-head);font-size:20px;letter-spacing:2px;
+  padding:14px 36px;border-radius:4px;
+  transition:transform 0.15s,box-shadow 0.15s;
+}
+.btn-white:hover{transform:scale(1.03);box-shadow:0 8px 30px rgba(0,0,0,0.3)}
+.guarantee{
+  margin-top:2rem;font-size:13px;color:rgba(255,255,255,0.7);
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  background:var(--black);
+  border-top:1px solid rgba(212,81,26,0.15);
+  padding:3rem 1.25rem 2rem;
+}
+.footer-inner{
+  max-width:900px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:2rem;margin-bottom:2rem;
+}
+.footer-brand .brand-name{
+  font-family:var(--font-head);font-size:28px;
+  letter-spacing:2px;color:var(--orange);
+}
+.footer-brand .brand-tag{
+  font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-top:2px;
+}
+.footer-brand p{font-size:13px;color:var(--muted);margin-top:1rem;line-height:1.6}
+.footer-col h4{
+  font-family:var(--font-head);font-size:16px;letter-spacing:2px;
+  color:var(--orange);margin-bottom:1rem;text-transform:uppercase;
+}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.footer-col ul li a{font-size:13px;color:var(--muted);transition:color 0.2s}
+.footer-col ul li a:hover{color:var(--orange)}
+.social-links{display:flex;gap:10px;margin-top:0.5rem}
+.social-link{
+  width:36px;height:36px;border-radius:4px;
+  background:var(--black3);border:1px solid rgba(212,81,26,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;transition:border-color 0.2s,background 0.2s;
+}
+.social-link:hover{background:var(--orange);border-color:var(--orange)}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,0.05);
+  padding-top:1.5rem;
+  display:flex;flex-wrap:wrap;gap:1rem;
+  justify-content:space-between;align-items:center;
+  font-size:12px;color:var(--muted);
+}
+.footer-bottom a{color:var(--muted);transition:color 0.2s}
+.footer-bottom a:hover{color:var(--orange)}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeDown{
+  from{opacity:0;transform:translateY(-20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes ticker{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+@keyframes pulse-glow{
+  0%,100%{box-shadow:0 0 0 0 rgba(212,81,26,0.4)}
+  50%{box-shadow:0 0 0 12px rgba(212,81,26,0)}
+}
+@keyframes pulse-green{
+  0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,0.4)}
+  50%{box-shadow:0 0 0 12px rgba(37,211,102,0)}
+}
+@keyframes bounce{
+  0%,100%{transform:translateX(-50%) translateY(0)}
+  50%{transform:translateX(-50%) translateY(8px)}
+}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal{
+  opacity:0;transform:translateY(30px);
+  transition:opacity 0.6s ease,transform 0.6s ease;
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ===== CONTAINER ===== */
+.container{max-width:900px;margin:0 auto}
+
+/* ===== FLOATING WHATSAPP ===== */
+.float-wa{
+  position:fixed;bottom:24px;right:24px;z-index:998;
+  width:56px;height:56px;border-radius:50%;
+  background:#25D366;color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;
+  box-shadow:0 4px 20px rgba(37,211,102,0.5);
+  animation:pulse-green 2.5s infinite;
+  transition:transform 0.2s;
+}
+.float-wa:hover{transform:scale(1.1)}
+
+</style>
+</head>
+<body>
+
+<!-- FLOATING WHATSAPP -->
+<a class="float-wa" href="https://wa.me/254759670456?text=Hey%20Power%20Baze!%20I%27d%20like%20to%20order%20🔥" target="_blank" title="Order on WhatsApp">💬</a>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <div class="nav-logo">POWER BAZE<span>The Ultimate Fuel Station</span></div>
+  <div class="nav-links">
+    <a href="#menu" class="hide-mobile">Menu</a>
+    <a href="#order" class="hide-mobile">Order</a>
+    <a href="#info" class="hide-mobile">Location</a>
+    <a href="https://wa.me/254759670456?text=Hey%20Power%20Baze!%20I%27d%20like%20to%20order%20🔥" target="_blank" class="nav-order">Order Now</a>
+  </div>
+</nav>
+
+<!-- ===== SECTION 1: HERO ===== -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🔥 Now Open · Kayole, Nairobi</div>
+    <h1 class="hero-title">
+      <span class="fire">POWER</span> BAZE
+      <span class="sub-name">The Ultimate Fuel Station</span>
+    </h1>
+    <p class="hero-tagline">Delicious, powerful meals that keep you energized all day — no food coma, just pure fuel.</p>
+    <div class="hero-signals">
+      <span class="signal">⚡ High Protein</span>
+      <span class="signal">🔥 Bold Flavour</span>
+      <span class="signal">🚀 FREE Delivery</span>
+      <span class="signal">⭐ 1960 Siku Zombo 👊👊</span>
+    </div>
+    <div class="hero-ctas">
+      <a href="https://wa.me/254759670456?text=Hey%20Power%20Baze!%20I%27d%20like%20to%20order%20🔥" target="_blank" class="btn-primary">ORDER NOW 🔥</a>
+      <a href="#menu" class="btn-secondary">See The Menu</a>
+    </div>
+  </div>
+  <div class="hero-scroll">SCROLL</div>
+</section>
+
+<!-- ===== SECTION 2: SOCIAL PROOF STRIP ===== -->
+<div id="proof-strip">
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span class="ticker-item"><span class="ticker-dot"></span>⭐⭐⭐⭐⭐ 4.9 Rating</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>🍽️ 5,000+ Meals Served</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>🚀 FREE Delivery · Kayole</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>💪 High Protein · Real Food</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>🔥 Fresh Daily · Never Frozen</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>📍 1960 Siku Zombo 👊👊</span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item"><span class="ticker-dot"></span>⭐⭐⭐⭐⭐ 4.9 Rating</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>🍽️ 5,000+ Meals Served</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>🚀 FREE Delivery · Kayole</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>💪 High Protein · Real Food</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>🔥 Fresh Daily · Never Frozen</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>📍 1960 Siku Zombo 👊👊</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 3: MENU ===== -->
+<section id="menu">
+  <div class="container">
+    <span class="section-label reveal">Our Signatures</span>
+    <h2 class="section-title reveal">THE POWER<br>MENU</h2>
+    <p class="section-sub reveal">Every item crafted to fuel your body and satisfy your cravings. No fillers. Pure fire.</p>
+
+    <div class="menu-grid">
+
+      <!-- Item 1: Titan Bowl -->
+      <div class="menu-card reveal">
+        <div class="menu-card-img">
+          <span style="position:relative;z-index:1">🥣</span>
+          <div class="menu-badge">🏆 Bestseller</div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">THE TITAN BOWL</div>
+          <div class="menu-card-desc">UJI POWER — the ultimate power breakfast. Dense, filling, and built for champions. Cup @ Ksh 50 · Kadonye @ Ksh 30.</div>
+          <div class="menu-card-footer">
+            <div class="menu-price">From Ksh 30</div>
+            <div class="menu-tags">
+              <span class="menu-tag">High Protein</span>
+              <span class="menu-tag">Gluten Free</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 2: Smokies -->
+      <div class="menu-card reveal">
+        <div class="menu-card-img">
+          <span style="position:relative;z-index:1">🌭</span>
+          <div class="menu-badge">🔥 Fan Fave</div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">SMOKIES</div>
+          <div class="menu-card-desc">Juicy smokies sliced and served with fresh kachumbari. Simple. Bold. Unbeatable at the price.</div>
+          <div class="menu-card-footer">
+            <div class="menu-price">Ksh 40</div>
+            <div class="menu-tags">
+              <span class="menu-tag">Fresh Daily</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 3: Chipo -->
+      <div class="menu-card reveal">
+        <div class="menu-card-img">
+          <span style="position:relative;z-index:1">🍟</span>
+          <div class="menu-badge">⚡ Hot &amp; Sweet</div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">CHIPO</div>
+          <div class="menu-card-desc">HOT AND SWEET — crispy fries with our signature seasoning. Once you try them you can't go back.</div>
+          <div class="menu-card-footer">
+            <div class="menu-price">Ksh 80</div>
+            <div class="menu-tags">
+              <span class="menu-tag">Crispy</span>
+              <span class="menu-tag">Seasoned</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 4: Samosa -->
+      <div class="menu-card reveal">
+        <div class="menu-card-img">
+          <span style="position:relative;z-index:1">🥟</span>
+          <div class="menu-badge">💥 INADONJO!</div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">SAMOSA</div>
+          <div class="menu-card-desc">Minced meat samosa — INADONJO!! Crispy shell, packed filling. The streets know. Need we say more?</div>
+          <div class="menu-card-footer">
+            <div class="menu-price">Ksh 20</div>
+            <div class="menu-tags">
+              <span class="menu-tag">Minced Meat</span>
+              <span class="menu-tag">Crispy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="menu-cta-row reveal">
+      <a href="https://wa.me/254759670456?text=Hey%20Power%20Baze!%20I%27d%20like%20to%20order%20🔥" target="_blank" class="btn-primary" style="display:inline-block;text-decoration:none">Order Your Meal Now 🔥</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 4: WHY US ===== -->
+<section id="why">
+  <div class="container">
+    <span class="section-label reveal">Why Power Baze</span>
+    <h2 class="section-title reveal">BUILT<br>DIFFERENT</h2>
+    <p class="section-sub reveal">We don't just cook food — we engineer fuel for the people of Kayole.</p>
+
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon">⚡</div>
+        <div class="why-title">Real Fuel</div>
+        <div class="why-desc">Every meal is built around keeping you energized — not putting you to sleep. High protein, balanced portions, zero filler.</div>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">🔥</div>
+        <div class="why-title">Bold Flavour</div>
+        <div class="why-desc">We season, we spice, we perfect. From our Uji Power to the INADONJO samosa — every bite hits different.</div>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">🚀</div>
+        <div class="why-title">Free Delivery</div>
+        <div class="why-desc">No delivery fee. No hidden charges. Order via WhatsApp and we bring the fuel to your door. That's Power Baze.</div>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">🫱🏿</div>
+        <div class="why-title">Community First</div>
+        <div class="why-desc">Born and raised in Kayole. We know the hustle. We feed the grind. 1960 Siku Zombo 👊👊 — we're not going anywhere.</div>
+      </div>
+    </div>
+
+    <div class="stats-row reveal">
+      <div>
+        <div class="stat-num">5K+</div>
+        <div class="stat-label">Meals Served</div>
+      </div>
+      <div>
+        <div class="stat-num">4.9★</div>
+        <div class="stat-label">Avg Rating</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Fresh Daily</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 5: HOW TO ORDER ===== -->
+<section id="order">
+  <div class="container">
+    <span class="section-label reveal">Place An Order</span>
+    <h2 class="section-title reveal">HOW TO<br>GET FUELLED</h2>
+    <p class="section-sub reveal">Three simple steps between you and your next power meal.</p>
+
+    <div class="order-steps">
+      <div class="order-step reveal">
+        <div class="step-num">1</div>
+        <div class="step-title">Pick Your Meal</div>
+        <div class="step-desc">Browse the menu above and decide what fuel you need today.</div>
+      </div>
+      <div class="order-step reveal">
+        <div class="step-num">2</div>
+        <div class="step-title">WhatsApp Us</div>
+        <div class="step-desc">Send us your order on WhatsApp — include your name and location in Kayole.</div>
+      </div>
+      <div class="order-step reveal">
+        <div class="step-num">3</div>
+        <div class="step-title">Get Delivered</div>
+        <div class="step-desc">We pack fresh and deliver FREE to your door. Eat. Fuel. Conquer.</div>
+      </div>
+    </div>
+
+    <div class="whatsapp-cta reveal">
+      <h3>Ready to Order? 👇</h3>
+      <p>Message us now — we're live Mon–Fri 11AM–9PM · Sat 12PM–8PM</p>
+      <a href="https://wa.me/254759670456?text=Hey%20Power%20Baze!%20I%27d%20like%20to%20order%20🔥" target="_blank" class="btn-whatsapp">
+        <span class="wa-icon">💬</span> ORDER ON WHATSAPP
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 6: TESTIMONIALS ===== -->
+<section id="testimonials">
+  <div class="container">
+    <span class="section-label reveal">What They Say</span>
+    <h2 class="section-title reveal">THE PEOPLE<br>HAVE SPOKEN</h2>
+    <p class="section-sub reveal">Real customers. Real energy. No food comas.</p>
+
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">I've been running a gym in Kayole for 6 years. I always struggled to find food that was actually filling without killing my energy mid-afternoon. The Titan Bowl from Power Baze is now my daily pre-training meal. My members are hooked too. This place is serious.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">JK</div>
+          <div>
+            <div class="testi-name">James Kamau</div>
+            <div class="testi-role">Local Gym Owner · Kayole</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">I work two jobs and I used to spend my lunch break in a food coma until a colleague told me about Power Baze. The smokies and chipo combo is fast, affordable, and I'm actually focused for the rest of the day. And FREE delivery?! These guys are built different.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">AW</div>
+          <div>
+            <div class="testi-name">Aisha Wanjiku</div>
+            <div class="testi-role">Busy Professional · Nairobi</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">I train for marathons and nutrition timing is everything. Power Baze understands that food is fuel. The Uji Power hits exactly right before a long run — sustained energy, no bloating, no crash. The samosas after a race? INADONJO is the only way to describe it. Top tier.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">PM</div>
+          <div>
+            <div class="testi-name">Peter Mwangi</div>
+            <div class="testi-role">Marathon Runner · Nairobi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 7: LOYALTY ===== -->
+<section id="loyalty">
+  <div class="loyalty-bg"></div>
+  <div class="container">
+    <div class="loyalty-inner">
+      <span class="section-label reveal">Stay Connected</span>
+      <h2 class="section-title reveal">JOIN THE<br>POWER SQUAD</h2>
+      <p class="section-sub reveal" style="margin-bottom:0.5rem">Drop your number and be first to know about new items, deals, and Power Baze specials.</p>
+
+      <div class="loyalty-perks">
+        <div class="perk reveal">
+          <span class="perk-icon">🎁</span>
+          <div class="perk-text"><strong>First order discount</strong> — get Ksh 20 off your first WhatsApp order when you join.</div>
+        </div>
+        <div class="perk reveal">
+          <span class="perk-icon">🔔</span>
+          <div class="perk-text"><strong>New item drops</strong> — be the first to hear when we drop something new on the menu.</div>
+        </div>
+        <div class="perk reveal">
+          <span class="perk-icon">👊</span>
+          <div class="perk-text"><strong>Squad loyalty rewards</strong> — regulars get hooked up. 10 orders = a free samosa plate.</div>
+        </div>
+      </div>
+
+      <div class="email-form reveal">
+        <input type="tel" class="email-input" placeholder="Your WhatsApp number e.g. 0759 670 456" id="loyaltyInput"/>
+        <button class="btn-subscribe" onclick="joinSquad()">JOIN 🔥</button>
+      </div>
+      <p id="joinMsg" style="margin-top:0.75rem;font-size:13px;color:#6db85a;display:none">✅ Welcome to the Power Squad! We'll be in touch on WhatsApp.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 8: LOCATION & FAQ ===== -->
+<section id="info">
+  <div class="container">
+    <span class="section-label reveal">Find Us</span>
+    <h2 class="section-title reveal">LOCATION<br>& HOURS</h2>
+
+    <div class="info-grid">
+      <div>
+        <div class="hours-card reveal">
+          <div class="card-title">Opening Hours</div>
+          <div class="hour-row"><span class="day">Monday – Friday</span><span class="time">11:00 AM – 9:00 PM</span></div>
+          <div class="hour-row"><span class="day">Saturday</span><span class="time">12:00 PM – 8:00 PM</span></div>
+          <div class="hour-row"><span class="day">Sunday</span><span class="closed">CLOSED</span></div>
+        </div>
+        <div class="location-block reveal" style="margin-top:1.25rem">
+          <p>📍 <strong>Kayole, Nairobi</strong><br>
+          1960 Siku Zombo 👊👊<br><br>
+          Order via WhatsApp and we come to you anywhere in Kayole.</p>
+          <div class="delivery-badge">✅ FREE Delivery</div>
+        </div>
+      </div>
+
+      <div class="faq-card reveal">
+        <div class="card-title">FAQ</div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Do you deliver? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Yes! We offer FREE delivery within Kayole. Just WhatsApp your order and drop your location.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">How do I place an order? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Simple — click any "Order Now" button on the site and it opens WhatsApp with a pre-written message. Tell us what you want and your location and we handle the rest.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Is the Uji Power gluten free? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Yes! The Titan Bowl (Uji Power) is both high protein and gluten free — perfect for athletes, gym-goers, or anyone watching their diet.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Do you do bulk / catering orders? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Absolutely. WhatsApp us for bulk samosa or meal orders for events, offices, or group orders. We can make it work.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">What payment methods do you accept? <span class="faq-icon">+</span></div>
+          <div class="faq-a">We accept M-Pesa and cash on delivery. Easy and flexible.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Is the food fresh every day? <span class="faq-icon">+</span></div>
+          <div class="faq-a">100%. Everything at Power Baze is cooked fresh daily. We never freeze or reheat. You're always getting same-day fuel.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 9: FINAL CTA ===== -->
+<section id="final-cta">
+  <div class="final-cta-bg"></div>
+  <div class="final-cta-content">
+    <h2 class="final-cta-title">READY TO<br>GET FUELLED?</h2>
+    <p class="final-cta-sub">Don't let another day pass running on empty. Order now — FREE delivery, real food, real energy.</p>
+    <div class="final-cta-btns">
+      <a href="https://wa.me/254759670456?text=Hey%20Power%20Baze!%20I%27d%20like%20to%20order%20🔥" target="_blank" class="btn-white">ORDER ON WHATSAPP 💬</a>
+      <a href="#menu" class="btn-secondary" style="color:#fff;border-color:rgba(255,255,255,0.4)">See The Menu</a>
+    </div>
+    <div class="guarantee">✅ Free delivery &nbsp;·&nbsp; 🔥 Fresh daily &nbsp;·&nbsp; 💯 Satisfaction guaranteed</div>
+  </div>
+</section>
+
+<!-- ===== SECTION 10: FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="brand-name">POWER BAZE</div>
+      <div class="brand-tag">The Ultimate Fuel Station</div>
+      <p>Born in Kayole. Built for the grind. Real food that fuels real people — no fillers, no food comas, just pure power.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Menu</h4>
+      <ul>
+        <li><a href="#menu">Titan Bowl (Uji Power)</a></li>
+        <li><a href="#menu">Smokies</a></li>
+        <li><a href="#menu">Chipo</a></li>
+        <li><a href="#menu">Samosa</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#why">Why Power Baze</a></li>
+        <li><a href="#order">How to Order</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#info">Location & Hours</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="https://wa.me/254759670456" target="_blank">📱 WhatsApp Orders</a></li>
+        <li><a href="#">📍 Kayole, Nairobi</a></li>
+        <li><a href="#">⏰ Mon–Fri: 11AM–9PM</a></li>
+        <li><a href="#">⏰ Sat: 12PM–8PM</a></li>
+      </ul>
+      <div class="social-links" style="margin-top:1rem">
+        <a href="#" class="social-link" title="Instagram">📸</a>
+        <a href="#" class="social-link" title="Facebook">📘</a>
+        <a href="https://wa.me/254759670456" target="_blank" class="social-link" title="WhatsApp">💬</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Power Baze. All rights reserved. Built in Kayole 👊👊</span>
+    <div style="display:flex;gap:1rem">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms</a>
+      <a href="#">Allergen Info</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ===== SCROLL REVEAL =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); }});
+}, {threshold: 0.12});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ===== FAQ TOGGLE =====
+function toggleFaq(el){ el.classList.toggle('open'); }
+
+// ===== LOYALTY FORM =====
+function joinSquad(){
+  const input = document.getElementById('loyaltyInput');
+  if(input.value.trim().length < 9){ alert('Please enter a valid WhatsApp number.'); return; }
+  input.style.display = 'none';
+  document.querySelector('.btn-subscribe').style.display = 'none';
+  document.getElementById('joinMsg').style.display = 'block';
+}
+
+// ===== NAV HIGHLIGHT ON SCROLL =====
+const sections = document.querySelectorAll('section[id], div[id]');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 100) cur = s.id; });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--orange)' : '';
+  });
+});
+</script>
+</body>
+</html>
