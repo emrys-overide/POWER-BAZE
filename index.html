@@ -573,6 +573,7 @@ footer{
 }
 .float-wa:hover{transform:scale(1.1)}
 
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}}
 </style>
 </head>
 <body>
@@ -915,27 +916,27 @@ footer{
       <div class="faq-card reveal">
         <div class="card-title">FAQ</div>
 
-        <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="handleFaqKey(event,this)">
           <div class="faq-q">Do you deliver? <span class="faq-icon">+</span></div>
           <div class="faq-a">Yes! We offer FREE delivery within Kayole. Just WhatsApp your order and drop your location.</div>
         </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="handleFaqKey(event,this)">
           <div class="faq-q">How do I place an order? <span class="faq-icon">+</span></div>
           <div class="faq-a">Simple — click any "Order Now" button on the site and it opens WhatsApp with a pre-written message. Tell us what you want and your location and we handle the rest.</div>
         </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="handleFaqKey(event,this)">
           <div class="faq-q">Is the Uji Power gluten free? <span class="faq-icon">+</span></div>
           <div class="faq-a">Yes! The Titan Bowl (Uji Power) is both high protein and gluten free — perfect for athletes, gym-goers, or anyone watching their diet.</div>
         </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="handleFaqKey(event,this)">
           <div class="faq-q">Do you do bulk / catering orders? <span class="faq-icon">+</span></div>
           <div class="faq-a">Absolutely. WhatsApp us for bulk samosa or meal orders for events, offices, or group orders. We can make it work.</div>
         </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="handleFaqKey(event,this)">
           <div class="faq-q">What payment methods do you accept? <span class="faq-icon">+</span></div>
           <div class="faq-a">We accept M-Pesa and cash on delivery. Easy and flexible.</div>
         </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="handleFaqKey(event,this)">
           <div class="faq-q">Is the food fresh every day? <span class="faq-icon">+</span></div>
           <div class="faq-a">100%. Everything at Power Baze is cooked fresh daily. We never freeze or reheat. You're always getting same-day fuel.</div>
         </div>
@@ -1017,7 +1018,16 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // ===== FAQ TOGGLE =====
-function toggleFaq(el){ el.classList.toggle('open'); }
+function toggleFaq(el){
+  const isOpen = el.classList.toggle('open');
+  el.setAttribute('aria-expanded', String(isOpen));
+}
+function handleFaqKey(event, el){
+  if(event.key === 'Enter' || event.key === ' '){
+    event.preventDefault();
+    toggleFaq(el);
+  }
+}
 
 // ===== NAV HIGHLIGHT ON SCROLL =====
 const sections = document.querySelectorAll('section[id], div[id]');
